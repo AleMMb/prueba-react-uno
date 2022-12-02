@@ -9,10 +9,14 @@ const MiApi = () => {
   }, []);
 
   const llamadoApi = async () => {
-    const url = "https://api.victorsanmartin.com/feriados/en.json"
-    const respuesta = await fetch(url);
-    const datos = await respuesta.json();
-    setInformacion(datos.data);
+    try {
+      const url = "https://api.victorsanmartin.com/feriados/en.json";
+      const respuesta = await fetch(url);
+      const datos = await respuesta.json();
+      setInformacion(datos.data);
+    } catch (err) {
+      alert("Ups! Algo salio mal, inténtalo nuevamente más tarde");
+    }
   };
 
   const listaFeriado = !busqueda
@@ -22,10 +26,10 @@ const MiApi = () => {
       );
 
   const ordenando = () => {
-    const ordenarefiado = [...listaFeriado].sort((a, b) =>
+    const ordenaferiado = [...listaFeriado].sort((a, b) =>
       a.title > b.title ? 1 : -1
     );
-    setInformacion(ordenarefiado);
+    setInformacion(ordenaferiado);
   };
 
   return (
@@ -35,7 +39,7 @@ const MiApi = () => {
           Filtre feriados civiles o religiosos:
         </label>
         <input
-          className="h-8 rounded"
+          className="h-8 rounded bg-violet-800"
           type="text"
           name="busqueda"
           placeholder="buscar..."
@@ -46,6 +50,9 @@ const MiApi = () => {
         />
       </section>
       <article className="mx-56">
+        <h1 className="my-2.5 text-violet-800  tracking-tight text-4xl font-extrabold">
+          Lista de fechas:
+        </h1>
         <h2 className="list-none">
           {listaFeriado.map((feriado) => (
             <li key={feriado.title}>
@@ -53,11 +60,14 @@ const MiApi = () => {
             </li>
           ))}
         </h2>
-        <button className="btn btn-primary m-10" onClick={ordenando}>
+        <button
+          className="btn bg-violet-800 border-transparent m-10"
+          onClick={ordenando}
+        >
           mostar por orden alfabético
         </button>
       </article>
     </div>
-  );    
+  );
 };
 export default MiApi;
